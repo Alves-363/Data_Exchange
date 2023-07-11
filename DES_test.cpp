@@ -3,13 +3,14 @@
 #include<stdio.h>
 #include<string.h>
 #include<iostream>
+#include<openssl/md5.h>
 using namespace std;
  
 int main()
 { //声明变量
 	char MingWen[104]; //存放原始的明文
 	char target[8]; //将明文断成8个字符的一个分组
-	char InputKey[9]; //存放字符型的八位密钥
+	char InputKey[10]; //存放字符型的八位密钥
 	int text[64]; //存放一个分组转成二进制后的数据
 	int text_ip[64]; //存放第一次初始换位的结果
 	int L0[32], Li[32]; //将64位分成左右各32位进行迭代

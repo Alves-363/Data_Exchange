@@ -1,16 +1,11 @@
 #include<iostream>
 #include<stdio.h>
 #include<string.h>
+#include"base16.cpp"
 using namespace std;
 
-//base16加密映射表
-static const char BASE16_ENC_TAB[] = "0123456789ABCDEF";
-// base16 加密函数声明
-void BaseEncode(const char* in, int size, char* out);
-
-
 // Des加密函数定义
-int Des_code(  const char *MingWen1, char *InputKey, char *out)
+int Des_encode(  char *MingWen, char *InputKey, char *out)
 {
     /*用于Des的加密表*/
     // char MingWen[104]; //存放原始的明文
@@ -230,15 +225,15 @@ int Des_code(  const char *MingWen1, char *InputKey, char *out)
 
     //加密程序
 
-    if (MingWen1[0] == '\0' || MingWen1[0] == '\n')//检测明文是否为空
+    if (MingWen[0] == '\0' || MingWen[0] == '\n')//检测明文是否为空
     {
         cout<<"明文为空，无法加密"<<endl;
         return 0;
     }
 
     //用base16对明文处理
-    char MingWen[1024] = {0};
-    BaseEncode(MingWen1, sizeof(MingWen1), MingWen);
+    //char MingWen[1024] = {0};
+    //BaseEncode(MingWen1, sizeof(MingWen1), MingWen);
 
     //CBC模式下的加密
     i = 0; //将明文每8个字符作为一个分组，共有n个分组
@@ -430,17 +425,23 @@ int Des_code(  const char *MingWen1, char *InputKey, char *out)
     return strlen(out);
 }
 
-//加密函数BaseEncode的定义
-void BaseEncode(const char* in, int size, char* out)
+
+
+// 此main用于测试函数Des_encode
+/*int main()
 {
-	//分别取出一个字符的高4位和低4位
-	for (int i = 0; i < size; i++)
-	{
-		char high = in[i] >> 4;		//右移四位来取得高4位
-		char low = in[i] & 0x0f;	//与ffff并得到低4位
-		//将高4位和低4位对应的字符放入out中
-		out[i * 2] = BASE16_ENC_TAB[high];
-		out[i * 2 + 1] = BASE16_ENC_TAB[low];
-	}
-	//加密后，扩大为两倍；
-}
+    //测试
+    char data[] = "123ab";
+    cout<<"原文："<<data<<endl;
+    char out[1024]={0};
+    char key[10] ;
+    cout<<"输入密钥:"<<endl;
+    fgets(key, 10,stdin);
+    //int si = strlen(data);
+    //BaseEncode(data, si , out);
+    //cout<<"密文"<<out<<endl;
+    int len = Des_encode(data, key, out);
+    cout<<"密文（"<<len<<"):"<<out<<endl;
+    
+    return 0;
+}*/
